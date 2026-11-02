@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apple Style Calculator</title>
+  <style>
+    body {
+      background: #000;
+      font-family: 'Helvetica Neue', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      width: 320px;
+      background: #000;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      padding: 20px;
+    }
+
+    .display {
+      color: white;
+      font-size: 48px;
+      text-align: right;
+      margin-bottom: 20px;
+      padding: 10px;
+      height: 60px;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      height: 60px;
+      font-size: 24px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s ease;
+      color: white;
+    }
+
+    .btn-gray {
+      background: #a5a5a5;
+      color: black;
+    }
+
+    .btn-dark {
+      background: #333;
+    }
+
+    .btn-orange {
+      background: #f39c12;
+    }
+
+    .zero {
+      grid-column: span 2;
+      border-radius: 30px;
+      text-align: left;
+      padding-left: 28px;
+    }
+
+    button:hover {
+      filter: brightness(1.2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <div class="display" id="display">0</div>
+  <div class="buttons">
+    <button class="btn-gray" onclick="clearDisplay()">AC</button>
+    <button class="btn-gray" onclick="toggleSign()">±</button>
+    <button class="btn-gray" onclick="appendOperator('%')">%</button>
+    <button class="btn-orange" onclick="appendOperator('/')">÷</button>
+
+    <button class="btn-dark" onclick="appendNumber('7')">7</button>
+    <button class="btn-dark" onclick="appendNumber('8')">8</button>
+    <button class="btn-dark" onclick="appendNumber('9')">9</button>
+    <button class="btn-orange" onclick="appendOperator('*')">×</button>
+
+    <button class="btn-dark" onclick="appendNumber('4')">4</button>
+    <button class="btn-dark" onclick="appendNumber('5')">5</button>
+    <button class="btn-dark" onclick="appendNumber('6')">6</button>
+    <button class="btn-orange" onclick="appendOperator('-')">−</button>
+
+    <button class="btn-dark" onclick="appendNumber('1')">1</button>
+    <button class="btn-dark" onclick="appendNumber('2')">2</button>
+    <button class="btn-dark" onclick="appendNumber('3')">3</button>
+    <button class="btn-orange" onclick="appendOperator('+')">+</button>
+
+    <button class="btn-dark zero" onclick="appendNumber('0')">0</button>
+    <button class="btn-dark" onclick="appendDot()">.</button>
+    <button class="btn-orange" onclick="calculateResult()">=</button>
+  </div>
+</div>
+
+<script>
+  let display = document.getElementById("display");
+  let currentInput = "0";
+
+  function updateDisplay() {
+    display.textContent = currentInput;
+  }
+
+  function appendNumber(num) {
+    if (currentInput === "0") {
+      currentInput = num;
+    } else {
+      currentInput += num;
+    }
+    updateDisplay();
+  }
+
+  function appendDot() {
+    const parts = currentInput.split(/[\+\-\*\/]/);
+    const lastPart = parts[parts.length - 1];
+    if (!lastPart.includes(".")) {
+      currentInput += ".";
+      updateDisplay();
+    }
+  }
+
+  function appendOperator(op) {
+    const lastChar = currentInput.slice(-1);
+    if ("+-*/".includes(lastChar)) {
+      currentInput = currentInput.slice(0, -1) + op;
+    } else {
+      currentInput += op;
+    }
+    updateDisplay();
+  }
+
+  function clearDisplay() {
+    currentInput = "0";
+    updateDisplay();
+  }
+
+  function toggleSign() {
+    try {
+      currentInput = String(eval(currentInput) * -1);
+      updateDisplay();
+    } catch {
+      currentInput = "0";
+      updateDisplay();
+    }
+  }
+
+  function calculateResult() {
+    try {
+      currentInput = String(eval(currentInput));
+    } catch {
+      currentInput = "Error";
+    }
+    updateDisplay();
+  }
+</script>
+
+</body>
+</html>
