@@ -4,3 +4,4 @@ __pycache__/
 .DS_Store
 .env
 .cache/gitdetector_model/AI Images Detector/checkpoints/*.pth
+detector_model/AI Images Detector/checkpoints/
