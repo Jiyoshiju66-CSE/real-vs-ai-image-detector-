@@ -3,4 +3,4 @@ __pycache__/
 *.pyc
 .DS_Store
 .env
-.cache/git
+.cache/gitdetector_model/AI Images Detector/checkpoints/*.pth
